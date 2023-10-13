@@ -9,11 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dea982e0-1914-489e-9e5d-52ebc5aeb9c2" name="Changes" comment="init commit">
+    <list default="true" id="dea982e0-1914-489e-9e5d-52ebc5aeb9c2" name="Changes" comment="add PrisonerModel.java and PrisonerModel.java">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/vorova/dao/PrisonDao.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/vorova/dao/impl/PrisonDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/vorova/model/PrisonModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/vorova/model/PrisonerModel.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/vorova/service/PrisonService.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/vorova/service/impl/PrisonServiceImpl.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/vorova/servlets/PrisonRestServlet.java" afterDir="false" />
@@ -233,7 +232,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1697172167339</updated>
-      <workItem from="1697172168077" duration="20485000" />
+      <workItem from="1697172168077" duration="21373000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <option name="closed" value="true" />
@@ -243,7 +242,23 @@
       <option name="project" value="LOCAL" />
       <updated>1697193302258</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add PrisonerModel.java and PrisonerModel.java">
+      <option name="closed" value="true" />
+      <created>1697193551836</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1697193551836</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add PrisonerModel.java and PrisonerModel.java">
+      <option name="closed" value="true" />
+      <created>1697193567979</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697193567979</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,6 +266,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="init commit" />
+    <MESSAGE value="add PrisonerModel.java and PrisonerModel.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="add PrisonerModel.java and PrisonerModel.java" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

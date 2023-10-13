@@ -9,6 +9,7 @@ apply plugin: 'war'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -24,9 +25,12 @@ dependencies {
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
-
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // Postgres Driver
+    implementation 'org.postgresql:postgresql:42.6.0'
+
 }
 
 test {

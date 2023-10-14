@@ -44,3 +44,10 @@ _______
 * **Servlet Api 6.0** (Реализация сервлетов)
 * **Lombok** (getters и setters для моделей)
 * **Docker** (для запуска postgres)
+
+## Тестирование в Postman
+
+_____
+
+По коллекции запросов можно провести тестирование сервиса. <br>
+[Collection API for Postman](https://api.postman.com/collections/23657522-f0f22d11-977b-47c6-a773-f99ec67cf2e3?access_key=PMAT-01HCQQHWB19ZC4Z3CFRAEV0SPH)

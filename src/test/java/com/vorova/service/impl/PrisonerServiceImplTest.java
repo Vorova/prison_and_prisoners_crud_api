@@ -47,9 +47,9 @@ class PrisonerServiceImplTest {
         PrisonerModel prisoner = new PrisonerModel();
         doThrow(new RuntimeException()).when(prisonerDao).persist(prisoner);
 
-        assertThatThrownBy(() -> {
-            prisonerService.create(prisoner);
-        }).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() ->
+            prisonerService.create(prisoner)
+        ).isInstanceOf(RuntimeException.class);
 
         verify(prisonerDao).persist(prisoner);
     }
@@ -72,9 +72,9 @@ class PrisonerServiceImplTest {
         prisoner.setId(-1L);
         doThrow(RuntimeException.class).when(prisonerDao).update(prisoner.getId(), prisoner);
 
-        assertThatThrownBy(() -> {
-            prisonerService.update(prisoner.getId(), prisoner);
-        }).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() ->
+            prisonerService.update(prisoner.getId(), prisoner)
+        ).isInstanceOf(RuntimeException.class);
     }
 
     @Test
@@ -94,9 +94,9 @@ class PrisonerServiceImplTest {
         long negativeId = -1L;
         doThrow(RuntimeException.class).when(prisonerDao).delete(negativeId);
 
-        assertThatThrownBy(() -> {
-            prisonerService.delete(negativeId);
-        }).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() ->
+            prisonerService.delete(negativeId)
+        ).isInstanceOf(RuntimeException.class);
     }
 
     @Test
@@ -116,8 +116,8 @@ class PrisonerServiceImplTest {
         var negativeId = -1L;
         when(prisonerDao.findById(negativeId)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> {
-            prisonerService.findById(negativeId);
-        }).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() ->
+            prisonerService.findById(negativeId)
+        ).isInstanceOf(NoSuchElementException.class);
     }
 }

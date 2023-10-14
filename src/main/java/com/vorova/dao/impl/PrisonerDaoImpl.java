@@ -46,12 +46,13 @@ public class PrisonerDaoImpl implements PrisonerDao {
     @Override
     public void update(Long prisonerId, PrisonerModel prisoner) {
         String update_sql = """
-                UPDATE prisoner SET name = ? WHERE id = ?;
+                UPDATE prisoner SET name = ?, prison_id = ? WHERE id = ?;
                 """;
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(update_sql)) {
             statement.setString(1, prisoner.getName());
             statement.setLong(2, prisonerId);
+            statement.setLong(3, prisoner.getPrison_id());
             if (statement.executeUpdate() < 1)
                 throw new SQLException("Обновление prisoner не произошло");
         } catch (SQLException e) {

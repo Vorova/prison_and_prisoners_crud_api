@@ -2,6 +2,8 @@ package com.vorova.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Представление тюрьмы. Имеет primary key и название.
  */
@@ -16,5 +18,9 @@ public class PrisonModel {
      * Название тюрьмы
      */
     private String title;
+    /**
+     * Заключенные
+     */
+    private List<PrisonerModel> prisoners;
 
 }

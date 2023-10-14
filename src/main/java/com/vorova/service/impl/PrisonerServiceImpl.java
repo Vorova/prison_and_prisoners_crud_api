@@ -13,6 +13,8 @@ public class PrisonerServiceImpl implements PrisonerService {
     private static final PrisonerServiceImpl instance;
     private static final PrisonerDao prisonerDao = PrisonerDaoImpl.getInstance();
 
+    private PrisonerServiceImpl() {}
+
     static {
         instance = new PrisonerServiceImpl();
     }
@@ -20,8 +22,6 @@ public class PrisonerServiceImpl implements PrisonerService {
     public static PrisonerServiceImpl getInstance() {
         return instance;
     }
-
-    private PrisonerServiceImpl() {}
 
     @Override
     public void create(PrisonerModel prisoner) {

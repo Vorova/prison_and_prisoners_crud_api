@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public class PrisonerServiceImpl implements PrisonerService {
 
-    private static final PrisonerDao prisonerDao = new PrisonerDaoImpl();
+    private PrisonerDao prisonerDao = new PrisonerDaoImpl();
 
     /**
      * Данный метод отправляет запрос в dao слой, для сохранения в bd

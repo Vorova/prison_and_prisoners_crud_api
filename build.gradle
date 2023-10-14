@@ -13,8 +13,14 @@ repositories {
 }
 
 dependencies {
+    // Junit5
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // Mockito
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.4.0'
+    // AssertJ
+    testImplementation 'org.assertj:assertj-core:3.24.2'
 
     // Jakarta servlets
     implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
@@ -30,9 +36,6 @@ dependencies {
 
     // Postgres Driver
     implementation 'org.postgresql:postgresql:42.6.0'
-
-    // Mockito
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.4.0'
 }
 
 test {

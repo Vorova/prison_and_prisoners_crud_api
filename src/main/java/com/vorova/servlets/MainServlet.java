@@ -1,11 +1,13 @@
 package com.vorova.servlets;
 
+import jakarta.servlet.http.HttpServlet;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public interface MainServlet {
+public class MainServlet extends HttpServlet {
 
-    default String getBody(BufferedReader reader) {
+    protected String getBody(BufferedReader reader) {
         StringBuilder content = new StringBuilder();
         try {
             String inputLine;

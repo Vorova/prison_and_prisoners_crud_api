@@ -6,7 +6,6 @@ import com.vorova.service.PrisonerService;
 import com.vorova.service.impl.PrisonerServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -14,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/api/prisoner")
-public class PrisonerServlet extends HttpServlet implements MainServlet {
+public class PrisonerServlet extends MainServlet {
 
     private final static PrisonerService prisonerService = PrisonerServiceImpl.getInstance();
     private final static ObjectMapper mapper = new ObjectMapper();

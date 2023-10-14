@@ -14,21 +14,8 @@ import java.util.Optional;
 /**
  * Реализация dao слоя для сущности PrisonModel. <br>
  * Выполняет преимущественно CRUD операции <br>
- * Данная реализация выполнена с использованием шаблона проектирования Single tone
  */
 public class PrisonDaoImpl implements PrisonDao {
-
-    private static final PrisonDaoImpl instance;
-
-    private PrisonDaoImpl() {}
-
-    static {
-        instance = new PrisonDaoImpl();
-    }
-
-    public static PrisonDaoImpl getInstance(){
-        return instance;
-    }
 
     /**
      * Сохранение сущности в базе данных

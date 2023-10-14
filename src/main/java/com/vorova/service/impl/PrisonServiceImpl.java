@@ -15,19 +15,7 @@ import java.util.Optional;
  */
 public class PrisonServiceImpl implements PrisonService {
 
-    private final PrisonDao prisonDao = PrisonDaoImpl.getInstance();
-
-    private static final PrisonServiceImpl instance;
-
-    private PrisonServiceImpl() {}
-
-    static {
-        instance = new PrisonServiceImpl();
-    }
-
-    public static PrisonServiceImpl getInstance(){
-        return instance;
-    }
+    private final PrisonDao prisonDao = new PrisonDaoImpl();
 
     /**
      * Отправляет запрос в dao слой для сохранения сущности

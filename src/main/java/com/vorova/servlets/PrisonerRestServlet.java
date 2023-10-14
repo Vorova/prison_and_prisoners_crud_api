@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 @WebServlet("/api/prisoner")
 public class PrisonerRestServlet extends CustomServlet {
 
-    private final static PrisonerService prisonerService = PrisonerServiceImpl.getInstance();
+    private final static PrisonerService prisonerService = new PrisonerServiceImpl();
     private final static ObjectMapper mapper = new ObjectMapper();
 
     /**

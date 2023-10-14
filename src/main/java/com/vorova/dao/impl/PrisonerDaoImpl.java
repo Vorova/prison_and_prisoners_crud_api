@@ -18,18 +18,6 @@ import java.util.Optional;
  */
 public class PrisonerDaoImpl implements PrisonerDao {
 
-    private static final PrisonerDaoImpl instance;
-
-    private PrisonerDaoImpl() {}
-
-    static {
-        instance = new PrisonerDaoImpl();
-    }
-
-    public static PrisonerDaoImpl getInstance() {
-        return instance;
-    }
-
     /**
      * Сохранение сущности в базе
      * @param prisoner сущность, которую необходимо сохранить

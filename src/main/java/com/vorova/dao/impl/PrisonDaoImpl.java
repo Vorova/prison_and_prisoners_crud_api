@@ -6,6 +6,7 @@ import com.vorova.model.PrisonModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +27,11 @@ public class PrisonDaoImpl implements PrisonDao {
 
     @Override
     public void persist(PrisonModel prison) {
-        String INSERT_SQL = """
+        String insert_sql = """
             INSERT INTO prison(title) VALUES (?);
             """;
         try (Connection connection = ConnectionManager.open();
-                PreparedStatement statement = connection.prepareStatement(INSERT_SQL)){
+                PreparedStatement statement = connection.prepareStatement(insert_sql)){
             statement.setString(1, prison.getTitle());
             statement.execute();
         } catch (SQLException e) {
@@ -41,19 +42,59 @@ public class PrisonDaoImpl implements PrisonDao {
     }
 
     @Override
-    public void update(Long id, PrisonModel prison) {
-        // TODO Логика обновления Prison
+    public void update(Long prisonId, PrisonModel prison) {
+        String update_sql = """
+                UPDATE prison SET title = ? WHERE id = ?;
+                """;
+        try (Connection connection = ConnectionManager.open();
+            PreparedStatement statement = connection.prepareStatement(update_sql)) {
+            statement.setString(1, prison.getTitle());
+            statement.setLong(2, prisonId);
+            if (statement.executeUpdate() < 1)
+                throw new SQLException("Обновление не удалось");
+        } catch (SQLException e) {
+            System.err.println("Не удалось обновить Prison");
+            System.err.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        // TODO Логика удаления Prison
+    public void delete(Long prisonId) {
+        String delete_sql = """
+            DELETE FROM prison WHERE id = ?;
+            """;
+        try (Connection connection = ConnectionManager.open();
+             PreparedStatement statement = connection.prepareStatement(delete_sql)){
+            statement.setLong(1, prisonId);
+            if (statement.executeUpdate() < 1)
+                throw new RuntimeException("Ничего не было удалено!");
+        } catch (SQLException e) {
+            System.err.println("Не удалось удалить Prison");
+            System.err.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public Optional<PrisonModel> findById(Long id) {
-        // TODO Логика получения Prison по ID
-        return Optional.empty();
+    public Optional<PrisonModel> findById(Long prisonId) {
+        String select_sql = "SELECT * FROM prison WHERE id = ?";
+        try (Connection connection = ConnectionManager.open();
+             PreparedStatement statement = connection.prepareStatement(select_sql)){
+            statement.setLong(1, prisonId);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                var prison = new PrisonModel();
+                prison.setId(result.getLong("id"));
+                prison.setTitle(result.getString("title"));
+                return Optional.of(prison);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            System.err.println("Не удалось получить Prison");
+            System.err.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

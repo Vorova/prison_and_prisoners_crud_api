@@ -11,7 +11,7 @@ public interface PrisonDao {
 
     void update(Long id, PrisonModel prison);
 
-    void delete(Long id);
+    void delete(Long prisonId);
 
     Optional<PrisonModel> findById(Long id);
 

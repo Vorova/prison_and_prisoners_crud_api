@@ -9,14 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dea982e0-1914-489e-9e5d-52ebc5aeb9c2" name="Changes" comment="implemented methods of PrisonRestServlet.java">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/vorova/config/ConnectionManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/V1_0__PRISON_TABLE.sql" afterDir="false" />
+    <list default="true" id="dea982e0-1914-489e-9e5d-52ebc5aeb9c2" name="Changes" comment="remove HttpCode.java and remove ResponseEntity.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vorova/dao/PrisonDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vorova/dao/PrisonDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vorova/dao/impl/PrisonDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vorova/dao/impl/PrisonDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vorova/service/impl/PrisonServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vorova/service/impl/PrisonServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +51,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="add_JDBC" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -83,7 +80,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "add__JDBC",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/vvvor/IdeaProjects/prison_and_prisoners_crud_api/src/main/resources",
     "node.js.detected.package.eslint": "true",
@@ -259,7 +256,23 @@
       <option name="project" value="LOCAL" />
       <updated>1697195612241</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add JDBC">
+      <option name="closed" value="true" />
+      <created>1697222672623</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1697222672623</updated>
+    </task>
+    <task id="LOCAL-00007" summary="remove HttpCode.java and remove ResponseEntity.java">
+      <option name="closed" value="true" />
+      <created>1697222835057</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1697222835057</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -281,7 +294,9 @@
     <MESSAGE value="add PrisonerModel.java and PrisonerModel.java" />
     <MESSAGE value="add Dao and Service layer for PrisonModel" />
     <MESSAGE value="add ResponseEntity.java and HttpCode.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="add ResponseEntity.java and HttpCode.java" />
+    <MESSAGE value="add JDBC" />
+    <MESSAGE value="remove HttpCode.java and remove ResponseEntity.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove HttpCode.java and remove ResponseEntity.java" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

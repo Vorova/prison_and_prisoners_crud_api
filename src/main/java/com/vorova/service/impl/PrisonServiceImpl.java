@@ -26,10 +26,6 @@ public class PrisonServiceImpl implements PrisonService {
 
     @Override
     public void create(PrisonModel prison) {
-        /*
-         * Здесь возможна дополнительная логика,
-         * необходимая при создании сущности Prison
-         */
         prisonDao.persist(prison);
     }
 

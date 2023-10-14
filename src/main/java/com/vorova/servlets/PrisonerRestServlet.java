@@ -56,7 +56,7 @@ public class PrisonerRestServlet extends CustomServlet {
      *
      * @param response an {@link HttpServletResponse} object that contains the response the servlet sends to the client
      *
-     * @throws IOException
+     * @throws IOException ошибка сериализации
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -79,7 +79,7 @@ public class PrisonerRestServlet extends CustomServlet {
      *
      * @param response the {@link HttpServletResponse} object that contains the response the servlet returns to the client
      *
-     * @throws IOException
+     * @throws IOException ошибка сериализации
      */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {

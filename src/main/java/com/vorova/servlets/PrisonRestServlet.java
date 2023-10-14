@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vorova.model.PrisonModel;
 import com.vorova.service.PrisonService;
 import com.vorova.service.impl.PrisonServiceImpl;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -58,7 +57,7 @@ public class PrisonRestServlet extends CustomServlet {
      *
      * @param response an {@link HttpServletResponse} object that contains the response the servlet sends to the client
      *
-     * @throws IOException
+     * @throws IOException ошибка сериализации
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -83,7 +82,7 @@ public class PrisonRestServlet extends CustomServlet {
      *
      * @param response the {@link HttpServletResponse} object that contains the response the servlet returns to the client
      *
-     * @throws IOException
+     * @throws IOException ошибка сериализации
      */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {

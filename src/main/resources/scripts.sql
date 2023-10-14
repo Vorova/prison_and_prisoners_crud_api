@@ -8,5 +8,5 @@ CREATE TABLE prisoner
 (
     id        BIGSERIAL PRIMARY KEY,
     name      VARCHAR(128),
-    prison_id BIGINT REFERENCES prison (id)
+    prison_id BIGINT NOT NULL REFERENCES prison (id)
 );

@@ -11,6 +11,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Реализация dao слоя для сущности PrisonModel. <br>
+ * Выполняет преимущественно CRUD операции <br>
+ * Данная реализация выполнена с использованием шаблона проектирования Single tone
+ */
 public class PrisonDaoImpl implements PrisonDao {
 
     private static final PrisonDaoImpl instance;
@@ -25,6 +30,10 @@ public class PrisonDaoImpl implements PrisonDao {
         return instance;
     }
 
+    /**
+     * Сохранение сущности в базе данных
+     * @param prison сохраняемая сущность
+     */
     @Override
     public void persist(PrisonModel prison) {
         String insert_sql = """
@@ -41,6 +50,11 @@ public class PrisonDaoImpl implements PrisonDao {
         }
     }
 
+    /**
+     * Обновление сущности в базе данных
+     * @param prisonId primary key для обновления
+     * @param prison новая сущность
+     */
     @Override
     public void update(Long prisonId, PrisonModel prison) {
         String update_sql = """
@@ -59,6 +73,10 @@ public class PrisonDaoImpl implements PrisonDao {
         }
     }
 
+    /**
+     * Удаление сущности из базы данных
+     * @param prisonId primary key по которому будет удаление
+     */
     @Override
     public void delete(Long prisonId) {
         String delete_sql = """
@@ -76,6 +94,11 @@ public class PrisonDaoImpl implements PrisonDao {
         }
     }
 
+    /**
+     * Получение сущности по ее primary key
+     * @param prisonId primary key
+     * @return Optional PrisonModel
+     */
     @Override
     public Optional<PrisonModel> findById(Long prisonId) {
         String select_sql = "SELECT * FROM prison WHERE id = ?";

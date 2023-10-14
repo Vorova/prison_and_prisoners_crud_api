@@ -1,9 +1,9 @@
 package com.vorova.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vorova.model.PrisonModel;
-import com.vorova.service.PrisonService;
-import com.vorova.service.impl.PrisonServiceImpl;
+import com.vorova.model.PrisonerModel;
+import com.vorova.service.PrisonerService;
+import com.vorova.service.impl.PrisonerServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,19 +13,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * CRUD REST servlet, работающий над сущностью Prison <br>
- * Принимает запросы на выполнение crud операции в отношении Prison
+ * CRUD REST servlet, который работает с сущностью Prisoner
  */
-@WebServlet("/api/prison")
-public class PrisonRestServlet extends CustomServlet {
+@WebServlet("/api/prisoner")
+public class PrisonerRestServlet extends CustomServlet {
 
-    private final PrisonService prisonService = PrisonServiceImpl.getInstance();
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final static PrisonerService prisonerService = PrisonerServiceImpl.getInstance();
+    private final static ObjectMapper mapper = new ObjectMapper();
 
     /**
-     * Получение сущности Prison по id<br>
-     * Http code 200 + строковое представление сущности в формате json, если сущность с таким id существует
-     * Http code 404, если такой сущности нет
+     * Возвращает Prisoner по get параметру id <br>
+     * Устанавливает код ответа 200, если такой Prisoner существует, и возвращает сущность Prisoner <br>
+     * Устанавливает код ответа 404, если такой Prisoner не существует.
      * @param request an {@link HttpServletRequest} object that contains the request the client has made of the servlet
      *
      * @param response an {@link HttpServletResponse} object that contains the response the servlet sends to the client
@@ -35,27 +34,26 @@ public class PrisonRestServlet extends CustomServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long prisonId = Long.parseLong(request.getParameter("id"));
+        long prisonerId = Long.parseLong(request.getParameter("id"));
 
         try {
-            PrisonModel prison = prisonService.findById(prisonId);
+            PrisonerModel prisoner = prisonerService.findById(prisonerId);
 
             response.setStatus(200);
             response.setContentType("application/json");
 
             PrintWriter pw = response.getWriter();
-            pw.write(mapper.writeValueAsString(prison));
+            pw.write(mapper.writeValueAsString(prisoner));
         } catch (Exception e) {
             response.setStatus(404);
         }
     }
 
     /**
-     * Создание сущности Prison <br>
-     * Из тела запроса формируется сущность Prison и сохраняется в data base<br>
-     *
-     * Http code 201, если удалось создать сущность <br>
-     * Http code 400, если сущность создать не удалось
+     * Из полученного тела запроса формируется сущность Prisoner <br>
+     * Http code - 201, при успешном сохранении <br>
+     * Http code - 400, если не удалось сохранить сущность, например,
+     * не корректное тело запроса или не удачное подключение к бд
      *
      * @param request an {@link HttpServletRequest} object that contains the request the client has made of the servlet
      *
@@ -68,8 +66,8 @@ public class PrisonRestServlet extends CustomServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         var requestBody = getBody(request.getReader());
         try {
-            PrisonModel prison = mapper.readValue(requestBody, PrisonModel.class);
-            prisonService.create(prison);
+            PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
+            prisonerService.create(prisoner);
             response.setStatus(201);
         } catch (Exception e) {
             response.setStatus(400);
@@ -77,11 +75,9 @@ public class PrisonRestServlet extends CustomServlet {
     }
 
     /**
-     * Обновление сущности Prison. <br>
-     * Из строкового представления тела запроса, с помощью ObjectMapper формируется сущность Prison,
-     * а затем по id этой сущности происходит обновление <br>
-     * Http code 204, если обновление прошло успешно <br>
-     * http code 400, если обновление не удалось
+     * Обновляет полученную сущность Prisoner <br>
+     * Http code - 204, при успешном обновлении <br>
+     * Http code - 400, если обновление не удалось
      *
      * @param request the {@link HttpServletRequest} object that contains the request the client made of the servlet
      *
@@ -94,8 +90,8 @@ public class PrisonRestServlet extends CustomServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         var requestBody = getBody(request.getReader());
         try {
-            PrisonModel prison = mapper.readValue(requestBody, PrisonModel.class);
-            prisonService.update(prison.getId(), prison);
+            PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
+            prisonerService.update(prisoner.getId(), prisoner);
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);
@@ -103,10 +99,9 @@ public class PrisonRestServlet extends CustomServlet {
     }
 
     /**
-     * Удаление сущности по id, полученному из get параметра 'id' <br>
-     * Http code 204, если удаление прошло успешно <br>
+     * Удаляет сущность, по id, полученном из get параметра <br>
+     * Http code 204, при успешном удалении <br>
      * Http code 400, если удаление не удалось
-     *
      * @param request the {@link HttpServletRequest} object that contains the request the client made of the servlet
      *
      * @param response the {@link HttpServletResponse} object that contains the response the servlet returns to the client
@@ -116,13 +111,12 @@ public class PrisonRestServlet extends CustomServlet {
      */
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long prisonId = Long.parseLong(request.getParameter("id"));
+        long prisonerId = Long.parseLong(request.getParameter("id"));
         try {
-            prisonService.delete(prisonId);
+            prisonerService.delete(prisonerId);
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);
         }
     }
-
 }

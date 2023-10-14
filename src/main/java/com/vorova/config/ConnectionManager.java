@@ -3,6 +3,12 @@ package com.vorova.config;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+/**
+ * Менеджер подключений к базе.
+ * При запросе подключения ConnectionManager возвращает новое подключение,
+ * но возможна реализация пула подключений.
+ */
 public class ConnectionManager {
 
     private static final String URL = "jdbc:postgresql://localhost:5434/postgres";

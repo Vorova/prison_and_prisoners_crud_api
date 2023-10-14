@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vorova.model.PrisonerModel;
 import com.vorova.service.PrisonerService;
 import com.vorova.service.impl.PrisonerServiceImpl;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,11 +28,9 @@ public class PrisonerRestServlet extends CustomServlet {
      *
      * @param response an {@link HttpServletResponse} object that contains the response the servlet sends to the client
      *
-     * @throws ServletException
-     * @throws IOException
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         long prisonerId = Long.parseLong(request.getParameter("id"));
 
         try {
@@ -59,11 +56,10 @@ public class PrisonerRestServlet extends CustomServlet {
      *
      * @param response an {@link HttpServletResponse} object that contains the response the servlet sends to the client
      *
-     * @throws ServletException
      * @throws IOException
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         var requestBody = getBody(request.getReader());
         try {
             PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
@@ -83,11 +79,10 @@ public class PrisonerRestServlet extends CustomServlet {
      *
      * @param response the {@link HttpServletResponse} object that contains the response the servlet returns to the client
      *
-     * @throws ServletException
      * @throws IOException
      */
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         var requestBody = getBody(request.getReader());
         try {
             PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
@@ -105,12 +100,9 @@ public class PrisonerRestServlet extends CustomServlet {
      * @param request the {@link HttpServletRequest} object that contains the request the client made of the servlet
      *
      * @param response the {@link HttpServletResponse} object that contains the response the servlet returns to the client
-     *
-     * @throws ServletException
-     * @throws IOException
      */
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
         long prisonerId = Long.parseLong(request.getParameter("id"));
         try {
             prisonerService.delete(prisonerId);

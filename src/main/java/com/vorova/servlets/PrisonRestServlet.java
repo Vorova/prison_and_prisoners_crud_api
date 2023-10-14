@@ -29,12 +29,9 @@ public class PrisonRestServlet extends CustomServlet {
      * @param request an {@link HttpServletRequest} object that contains the request the client has made of the servlet
      *
      * @param response an {@link HttpServletResponse} object that contains the response the servlet sends to the client
-     *
-     * @throws ServletException
-     * @throws IOException
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         long prisonId = Long.parseLong(request.getParameter("id"));
 
         try {
@@ -61,11 +58,10 @@ public class PrisonRestServlet extends CustomServlet {
      *
      * @param response an {@link HttpServletResponse} object that contains the response the servlet sends to the client
      *
-     * @throws ServletException
      * @throws IOException
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         var requestBody = getBody(request.getReader());
         try {
             PrisonModel prison = mapper.readValue(requestBody, PrisonModel.class);
@@ -87,11 +83,10 @@ public class PrisonRestServlet extends CustomServlet {
      *
      * @param response the {@link HttpServletResponse} object that contains the response the servlet returns to the client
      *
-     * @throws ServletException
      * @throws IOException
      */
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         var requestBody = getBody(request.getReader());
         try {
             PrisonModel prison = mapper.readValue(requestBody, PrisonModel.class);
@@ -110,12 +105,9 @@ public class PrisonRestServlet extends CustomServlet {
      * @param request the {@link HttpServletRequest} object that contains the request the client made of the servlet
      *
      * @param response the {@link HttpServletResponse} object that contains the response the servlet returns to the client
-     *
-     * @throws ServletException
-     * @throws IOException
      */
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
         long prisonId = Long.parseLong(request.getParameter("id"));
         try {
             prisonService.delete(prisonId);

@@ -13,11 +13,11 @@ public class StatsDto {
     /**
      * Общее кол-во тюрем
      */
-    private long allPrison;
+    private long countAllPrisons;
     /**
      * Общее кол-во заключенных
      */
-    private long allPrisoner;
+    private long countAllPrisoners;
     /**
      * Коллекция тюрем
      */

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,8 +113,34 @@ public class PrisonerDaoImpl implements PrisonerDao {
         }
     }
 
+    /**
+     * Получение всех prisoners по id тюрьмы в которой они находятся
+     * @param prisonId id prison
+     * @return List
+     */
     @Override
-    public List<PrisonerModel> findAll() {
-        return null;
+    public List<PrisonerModel> findAllByPrisonId(long prisonId) {
+        var prisoners = new ArrayList<PrisonerModel>();
+
+        final String SELECT_SQL = """
+                SELECT * FROM prisoner WHERE prison_id = ?;
+                """;
+        try(Connection connection = ConnectionManager.open();
+            PreparedStatement statement = connection.prepareStatement(SELECT_SQL)) {
+            statement.setLong(1, prisonId);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                var prisoner = new PrisonerModel();
+                prisoner.setId(result.getLong("id"));
+                prisoner.setName(result.getString("name"));
+                prisoner.setPrison_id(prisonId);
+                prisoners.add(prisoner);
+            }
+            return prisoners;
+        } catch (SQLException e) {
+            System.out.println("Не удалось получить всеx prisoners");
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
     }
 }

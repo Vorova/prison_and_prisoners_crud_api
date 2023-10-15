@@ -2,12 +2,15 @@ package com.vorova.dao.impl;
 
 import com.vorova.config.ConnectionManager;
 import com.vorova.dao.PrisonDao;
+import com.vorova.dao.PrisonerDao;
 import com.vorova.model.PrisonModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +19,8 @@ import java.util.Optional;
  * Выполняет преимущественно CRUD операции <br>
  */
 public class PrisonDaoImpl implements PrisonDao {
+
+    private final PrisonerDao prisonerDao = new PrisonerDaoImpl();
 
     /**
      * Сохранение сущности в базе данных
@@ -107,9 +112,33 @@ public class PrisonDaoImpl implements PrisonDao {
         }
     }
 
+    /**
+     * Получение всех PrisonModel
+     * @return List
+     */
     @Override
     public List<PrisonModel> findAll() {
-        // TODO Логика получения всех Prison
-        return null;
+        var prisons = new ArrayList<PrisonModel>();
+
+        final String SELECT_SQL = """
+                SELECT * FROM prison;
+                """;
+        try(Connection connection = ConnectionManager.open();
+            Statement statement = connection.createStatement()) {
+            ResultSet result = statement.executeQuery(SELECT_SQL);
+            while (result.next()) {
+               var prison = new PrisonModel();
+               prison.setId(result.getLong("id"));
+               prison.setTitle(result.getString("title"));
+
+               prison.setPrisoners(prisonerDao.findAllByPrisonId(prison.getId()));
+
+               prisons.add(prison);
+            }
+            return prisons;
+        } catch (SQLException e) {
+            System.out.println("Не удалось получить все prisons");
+            throw new RuntimeException();
+        }
     }
 }

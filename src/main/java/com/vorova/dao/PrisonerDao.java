@@ -1,6 +1,5 @@
 package com.vorova.dao;
 
-import com.vorova.model.PrisonModel;
 import com.vorova.model.PrisonerModel;
 
 import java.util.List;
@@ -16,6 +15,6 @@ public interface PrisonerDao {
 
     Optional<PrisonerModel> findById(Long prisonerId);
 
-    List<PrisonerModel> findAll();
+    List<PrisonerModel> findAllByPrisonId(long prisonId);
 
 }

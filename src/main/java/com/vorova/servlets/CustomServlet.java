@@ -1,38 +1,64 @@
 package com.vorova.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vorova.model.ResponseDto;
+import com.vorova.model.ResponseExceptionDto;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
 
 /**
- * Общий Servlet, необходим для привнесения доп. логики в работу всех кастомных Servlets
+ * Общий для всех остальных servlet
  */
 public class CustomServlet extends HttpServlet {
 
     ObjectMapper mapper = new ObjectMapper();
 
     /**
-     * Данный метод получает информацию из тела запроса
-     * и возвращает текстовое представление. <br>
-     * Данная логика вынесена в отдельный метод и может использоваться любым servlet, унаследованным
-     * от CustomServlet
-     * @param reader reader, который назначен для чтения тела запроса.
-     * @return String
+     *  Метод возвращает строковое значение тела запроса
      */
-    protected String getBody(BufferedReader reader) {
-        StringBuilder content = new StringBuilder();
+    protected String getBodyFromRequest(HttpServletRequest request) {
         try {
-            String inputLine;
+            StringBuilder result = new StringBuilder();
+            Reader reader = request.getReader();
             BufferedReader buffer = new BufferedReader(reader);
-            while ((inputLine = buffer.readLine()) != null) {
-                content.append(inputLine);
+            String lineResult;
+            while ((lineResult = buffer.readLine()) != null) {
+                result.append(lineResult);
             }
-            return content.toString();
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
-            throw new RuntimeException();
+            return result.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("Не удалось получить тело запроса");
         }
     }
+
+    /**
+     * Метод отвечает TODO
+     * @param response
+     * @param responseDto
+     * @throws IOException
+     */
+    protected void sendResponse(HttpServletResponse response, ResponseDto<?> responseDto) throws IOException {
+        PrintWriter writer = response.getWriter();
+        response.setStatus(responseDto.getCode().getCode());
+        writer.print(mapper.writeValueAsString(responseDto));
+    }
+
+    /**
+     * TODO
+     * @param response
+     * @param responseDto
+     * @throws IOException
+     */
+    protected void sendResponse(HttpServletResponse response, ResponseExceptionDto responseDto) throws IOException {
+        PrintWriter writer = response.getWriter();
+        response.setStatus(responseDto.getCode().getCode());
+        writer.print(mapper.writeValueAsString(responseDto));
+    }
+
 }

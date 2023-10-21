@@ -60,7 +60,7 @@ public class PrisonerRestServlet extends CustomServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        var requestBody = getBody(request.getReader());
+        var requestBody = getBodyFromRequest(request);
         try {
             PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
             prisonerService.create(prisoner);
@@ -83,7 +83,7 @@ public class PrisonerRestServlet extends CustomServlet {
      */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        var requestBody = getBody(request.getReader());
+        var requestBody = getBodyFromRequest(request);
         try {
             PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
             prisonerService.update(prisoner.getId(), prisoner);

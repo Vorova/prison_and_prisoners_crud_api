@@ -16,7 +16,7 @@ public class LoginServlet extends CustomServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        LoginDto loginDto = mapper.readValue(getBody(request.getReader()), LoginDto.class);
+        LoginDto loginDto = mapper.readValue(getBodyFromRequest(request), LoginDto.class);
 
         if (!userService.login(loginDto)) {
             // todo возврат

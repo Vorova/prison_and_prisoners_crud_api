@@ -1,6 +1,8 @@
 package com.vorova.servlets;
 
+import com.vorova.enums.HttpCode;
 import com.vorova.model.LoginDto;
+import com.vorova.model.ResponseExceptionDto;
 import com.vorova.service.UserService;
 import com.vorova.service.impl.UserServiceImpl;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,11 +21,14 @@ public class LoginServlet extends CustomServlet {
         LoginDto loginDto = mapper.readValue(getBodyFromRequest(request), LoginDto.class);
 
         if (!userService.login(loginDto)) {
-            // todo возврат
+            sendResponse(response, new ResponseExceptionDto(
+                            HttpCode.FORBIDDEN,
+                            "Bad credentials"));
         }
-
         // todo авторизация
-
+            // todo формирование JWT
+            // todo установка jwt в header
+            // todo отправка ответа или редирект
     }
 
 }

@@ -1,5 +1,6 @@
 package com.vorova.servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServlet;
 
 import java.io.BufferedReader;
@@ -9,6 +10,8 @@ import java.io.IOException;
  * Общий Servlet, необходим для привнесения доп. логики в работу всех кастомных Servlets
  */
 public class CustomServlet extends HttpServlet {
+
+    ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Данный метод получает информацию из тела запроса

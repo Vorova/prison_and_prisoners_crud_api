@@ -1,6 +1,7 @@
 package com.vorova.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vorova.enums.HttpCode;
 import com.vorova.model.ResponseDto;
 import com.vorova.model.ResponseExceptionDto;
 import jakarta.servlet.http.HttpServlet;
@@ -15,12 +16,12 @@ import java.io.Reader;
 /**
  * Общий для всех остальных servlet
  */
-public class CustomServlet extends HttpServlet {
+public class CustomRestServlet extends HttpServlet {
 
     ObjectMapper mapper = new ObjectMapper();
 
     /**
-     *  Метод возвращает строковое значение тела запроса
+     * Метод возвращает строковое значение тела запроса
      */
     protected String getBodyFromRequest(HttpServletRequest request) {
         try {
@@ -38,9 +39,10 @@ public class CustomServlet extends HttpServlet {
     }
 
     /**
-     * Метод отвечает TODO
-     * @param response
-     * @param responseDto
+     * Метод дает ответ от сервера
+     *
+     * @param response    - HttpServletResponse
+     * @param responseDto - тело ответа
      * @throws IOException
      */
     protected void sendResponse(HttpServletResponse response, ResponseDto<?> responseDto) throws IOException {
@@ -50,7 +52,8 @@ public class CustomServlet extends HttpServlet {
     }
 
     /**
-     * TODO
+     * Информирует клиента, что получена ошибка от сервера
+     *
      * @param response
      * @param responseDto
      * @throws IOException
@@ -59,6 +62,14 @@ public class CustomServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
         response.setStatus(responseDto.getCode().getCode());
         writer.print(mapper.writeValueAsString(responseDto));
+    }
+
+    /**
+     * Отправка успешного ответа без содержания
+     * @param response
+     */
+    protected void sendOk(HttpServletResponse response) {
+        response.setStatus(HttpCode.OK.getCode());
     }
 
 }

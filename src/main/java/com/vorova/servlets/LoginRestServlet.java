@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/api/login")
-public class LoginServlet extends CustomServlet {
+public class LoginRestServlet extends CustomRestServlet {
 
     UserService userService = new UserServiceImpl();
 
@@ -21,14 +21,15 @@ public class LoginServlet extends CustomServlet {
         LoginDto loginDto = mapper.readValue(getBodyFromRequest(request), LoginDto.class);
 
         if (!userService.login(loginDto)) {
-            sendResponse(response, new ResponseExceptionDto(
-                            HttpCode.FORBIDDEN,
-                            "Bad credentials"));
+            ResponseExceptionDto exceptionDto = new ResponseExceptionDto(HttpCode.FORBIDDEN,
+                    "Bad credentials");
+            sendResponse(response, exceptionDto);
+            return;
         }
-        // todo авторизация
-            // todo формирование JWT
-            // todo установка jwt в header
-            // todo отправка ответа или редирект
+
+        // todo формирование JWT
+        // todo установка jwt в header
+        sendOk(response);
     }
 
 }

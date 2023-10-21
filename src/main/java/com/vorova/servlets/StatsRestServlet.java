@@ -14,7 +14,7 @@ import java.io.PrintWriter;
  * Servlet для статистики
  */
 @WebServlet("/api/stats")
-public class StatsServlet extends CustomServlet {
+public class StatsRestServlet extends CustomRestServlet {
 
     private StatsService statsService = new StatsServiceImpl();
     private ObjectMapper mapper = new ObjectMapper();

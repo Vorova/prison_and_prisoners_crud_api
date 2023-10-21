@@ -16,7 +16,7 @@ import java.io.PrintWriter;
  * Принимает запросы на выполнение crud операции в отношении Prison
  */
 @WebServlet("/api/prison")
-public class PrisonRestServlet extends CustomServlet {
+public class PrisonRestServlet extends CustomRestServlet {
 
     private final PrisonService prisonService = new PrisonServiceImpl();
     private final ObjectMapper mapper = new ObjectMapper();

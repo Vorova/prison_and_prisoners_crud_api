@@ -15,7 +15,7 @@ import java.io.PrintWriter;
  * CRUD REST servlet, который работает с сущностью Prisoner
  */
 @WebServlet("/api/prisoner")
-public class PrisonerRestServlet extends CustomServlet {
+public class PrisonerRestServlet extends CustomRestServlet {
 
     private final static PrisonerService prisonerService = new PrisonerServiceImpl();
     private final static ObjectMapper mapper = new ObjectMapper();

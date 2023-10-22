@@ -22,8 +22,8 @@ public class PrisonServiceImpl implements PrisonService {
      * @param prison сущность, которую необходимо сохранить
      */
     @Override
-    public void create(PrisonModel prison, Long user_id) {
-        prisonDao.persist(prison, user_id);
+    public Long create(PrisonModel prison) {
+        return prisonDao.persist(prison);
     }
 
     /**

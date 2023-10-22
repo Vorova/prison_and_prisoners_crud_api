@@ -19,7 +19,7 @@ import java.util.Map;
 @WebFilter(urlPatterns = {
     "/api/prison", "/api/prisoner"
 })
-public class JWTFilter implements Filter{
+public class JWTFilter implements Filter {
 
     private final JwtService jwtService = new JwtServiceImpl();
 
@@ -45,7 +45,7 @@ public class JWTFilter implements Filter{
             return;
         }
         Map<String, Object> claims = jwtService.parseToken(authorization.substring(7));
-        servletContext.setAttribute("id", claims.get("id"));
+        servletContext.setAttribute("user_id", claims.get("id"));
         chain.doFilter(request, response);
     }
 

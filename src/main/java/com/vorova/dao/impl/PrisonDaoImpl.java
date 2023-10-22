@@ -24,19 +24,22 @@ public class PrisonDaoImpl implements PrisonDao {
 
     /**
      * Сохранение сущности в базе данных
+     *
      * @param prison сохраняемая сущность
-     * @param user_id id создавшего пользователя
      */
     @Override
-    public void persist(PrisonModel prison, Long user_id) {
+    public Long persist(PrisonModel prison) {
         String insert_sql = """
-            INSERT INTO prison(title, user_id) VALUES (?, ?);
-            """;
+                INSERT INTO prison(title) VALUES (?) RETURNING id;
+                """;
         try (Connection connection = ConnectionManager.open();
-                PreparedStatement statement = connection.prepareStatement(insert_sql)){
+             PreparedStatement statement = connection.prepareStatement(insert_sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, prison.getTitle());
-            statement.setLong(2, user_id);
             statement.execute();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys.next();
+            return generatedKeys.getLong(1);
         } catch (SQLException e) {
             System.err.println("Не удалось сохранить Prison");
             System.err.println(e.getMessage());
@@ -46,8 +49,9 @@ public class PrisonDaoImpl implements PrisonDao {
 
     /**
      * Обновление сущности в базе данных
+     *
      * @param prisonId primary key для обновления
-     * @param prison новая сущность
+     * @param prison   новая сущность
      */
     @Override
     public void update(Long prisonId, PrisonModel prison) {
@@ -55,7 +59,7 @@ public class PrisonDaoImpl implements PrisonDao {
                 UPDATE prison SET title = ? WHERE id = ?;
                 """;
         try (Connection connection = ConnectionManager.open();
-            PreparedStatement statement = connection.prepareStatement(update_sql)) {
+             PreparedStatement statement = connection.prepareStatement(update_sql)) {
             statement.setString(1, prison.getTitle());
             statement.setLong(2, prisonId);
             if (statement.executeUpdate() < 1)
@@ -69,15 +73,16 @@ public class PrisonDaoImpl implements PrisonDao {
 
     /**
      * Удаление сущности из базы данных
+     *
      * @param prisonId primary key по которому будет удаление
      */
     @Override
     public void delete(Long prisonId) {
         String delete_sql = """
-            DELETE FROM prison WHERE id = ?;
-            """;
+                DELETE FROM prison WHERE id = ?;
+                """;
         try (Connection connection = ConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement(delete_sql)){
+             PreparedStatement statement = connection.prepareStatement(delete_sql)) {
             statement.setLong(1, prisonId);
             if (statement.executeUpdate() < 1)
                 throw new RuntimeException("Ничего не было удалено!");
@@ -90,6 +95,7 @@ public class PrisonDaoImpl implements PrisonDao {
 
     /**
      * Получение сущности по ее primary key
+     *
      * @param prisonId primary key
      * @return Optional PrisonModel
      */
@@ -97,14 +103,13 @@ public class PrisonDaoImpl implements PrisonDao {
     public Optional<PrisonModel> findById(Long prisonId) {
         String select_sql = "SELECT * FROM prison WHERE id = ?";
         try (Connection connection = ConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement(select_sql)){
+             PreparedStatement statement = connection.prepareStatement(select_sql)) {
             statement.setLong(1, prisonId);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 var prison = new PrisonModel();
                 prison.setId(result.getLong("id"));
                 prison.setTitle(result.getString("title"));
-                prison.setUserId(result.getLong("user_id"));
                 return Optional.of(prison);
             }
             return Optional.empty();
@@ -117,6 +122,7 @@ public class PrisonDaoImpl implements PrisonDao {
 
     /**
      * Получение всех PrisonModel
+     *
      * @return List
      */
     @Override
@@ -126,17 +132,16 @@ public class PrisonDaoImpl implements PrisonDao {
         final String SELECT_SQL = """
                 SELECT * FROM prison;
                 """;
-        try(Connection connection = ConnectionManager.open();
-            Statement statement = connection.createStatement()) {
+        try (Connection connection = ConnectionManager.open();
+             Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_SQL);
             while (result.next()) {
-               var prison = new PrisonModel();
-               prison.setId(result.getLong("id"));
-               prison.setTitle(result.getString("title"));
+                var prison = new PrisonModel();
+                prison.setId(result.getLong("id"));
+                prison.setTitle(result.getString("title"));
+                prison.setPrisoners(prisonerDao.findAllByPrisonId(prison.getId()));
 
-               prison.setPrisoners(prisonerDao.findAllByPrisonId(prison.getId()));
-
-               prisons.add(prison);
+                prisons.add(prison);
             }
             return prisons;
         } catch (SQLException e) {

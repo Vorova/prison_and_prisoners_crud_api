@@ -13,6 +13,5 @@ public class PrisonModel {
     private Long id;
     private String title;
     private List<PrisonerModel> prisoners;
-    private Long userId;
 
 }

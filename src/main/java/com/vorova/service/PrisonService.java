@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PrisonService {
 
-    void create(PrisonModel prison, Long user_id);
+    Long create(PrisonModel prison);
 
     void update(Long id, PrisonModel prison);
 

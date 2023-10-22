@@ -27,6 +27,7 @@ public class UserDaoImpl implements UserDao {
 
             if (resultSet.next()) {
                 var userModel = new UserModel();
+                userModel.setId(resultSet.getLong("id"));
                 userModel.setLogin(resultSet.getString("login"));
                 userModel.setName(resultSet.getString("name"));
                 userModel.setPassword(resultSet.getString("password"));

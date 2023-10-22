@@ -1,9 +1,13 @@
 package com.vorova.servlets;
 
 import com.vorova.enums.HttpCode;
+import com.vorova.model.JwtTokenDto;
 import com.vorova.model.LoginDto;
+import com.vorova.model.ResponseDto;
 import com.vorova.model.ResponseExceptionDto;
+import com.vorova.service.JwtService;
 import com.vorova.service.UserService;
+import com.vorova.service.impl.JwtServiceImpl;
 import com.vorova.service.impl.UserServiceImpl;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +19,7 @@ import java.io.IOException;
 public class LoginRestServlet extends CustomRestServlet {
 
     UserService userService = new UserServiceImpl();
+    JwtService jwtService = new JwtServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -26,10 +31,8 @@ public class LoginRestServlet extends CustomRestServlet {
             sendResponse(response, exceptionDto);
             return;
         }
-
-        // todo формирование JWT
-        // todo установка jwt в header
-        sendOk(response);
+        JwtTokenDto jwt = jwtService.generateToken(loginDto.getLogin());
+        sendResponse(response, new ResponseDto<>(HttpCode.OK, jwt));
     }
 
 }

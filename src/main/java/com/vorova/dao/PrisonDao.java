@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface PrisonDao {
 
-    void persist(PrisonModel prison);
+    void persist(PrisonModel prison, Long user_id);
 
     void update(Long id, PrisonModel prison);
 

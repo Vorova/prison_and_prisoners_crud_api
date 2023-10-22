@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vorova.model.PrisonModel;
 import com.vorova.service.PrisonService;
 import com.vorova.service.impl.PrisonServiceImpl;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 /**
  * CRUD REST servlet, работающий над сущностью Prison <br>
@@ -60,11 +62,12 @@ public class PrisonRestServlet extends CustomRestServlet {
      * @throws IOException ошибка сериализации
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        int user_id = (int) getServletContext().getAttribute("id");
         var requestBody = getBodyFromRequest(request);
         try {
             PrisonModel prison = mapper.readValue(requestBody, PrisonModel.class);
-            prisonService.create(prison);
+            prisonService.create(prison, (long) user_id);
             response.setStatus(201);
         } catch (Exception e) {
             response.setStatus(400);

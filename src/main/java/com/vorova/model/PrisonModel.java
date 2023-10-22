@@ -10,17 +10,9 @@ import java.util.List;
 @Data
 public class PrisonModel {
 
-    /**
-     * Primary key
-     */
     private Long id;
-    /**
-     * Название тюрьмы
-     */
     private String title;
-    /**
-     * Заключенные
-     */
     private List<PrisonerModel> prisoners;
+    private Long userId;
 
 }

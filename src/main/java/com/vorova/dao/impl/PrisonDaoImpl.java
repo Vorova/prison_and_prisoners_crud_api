@@ -25,15 +25,17 @@ public class PrisonDaoImpl implements PrisonDao {
     /**
      * Сохранение сущности в базе данных
      * @param prison сохраняемая сущность
+     * @param user_id id создавшего пользователя
      */
     @Override
-    public void persist(PrisonModel prison) {
+    public void persist(PrisonModel prison, Long user_id) {
         String insert_sql = """
-            INSERT INTO prison(title) VALUES (?);
+            INSERT INTO prison(title, user_id) VALUES (?, ?);
             """;
         try (Connection connection = ConnectionManager.open();
                 PreparedStatement statement = connection.prepareStatement(insert_sql)){
             statement.setString(1, prison.getTitle());
+            statement.setLong(2, user_id);
             statement.execute();
         } catch (SQLException e) {
             System.err.println("Не удалось сохранить Prison");
@@ -102,6 +104,7 @@ public class PrisonDaoImpl implements PrisonDao {
                 var prison = new PrisonModel();
                 prison.setId(result.getLong("id"));
                 prison.setTitle(result.getString("title"));
+                prison.setUserId(result.getLong("user_id"));
                 return Optional.of(prison);
             }
             return Optional.empty();

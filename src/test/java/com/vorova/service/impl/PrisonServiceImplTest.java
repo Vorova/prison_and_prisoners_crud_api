@@ -17,10 +17,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith({
         MockitoExtension.class
@@ -37,20 +34,20 @@ class PrisonServiceImplTest {
     @DisplayName("Create prison")
     void createTest() {
         var prison = new PrisonModel();
-        doNothing().when(prisonDao).persist(prison);
+        doNothing().when(prisonDao).persist(prison, 1l);
 
-        prisonService.create(prison);
+        prisonService.create(prison, 1l);
 
-        verify(prisonDao).persist(prison);
+        verify(prisonDao).persist(prison, 1l);
     }
 
     @Test
     @DisplayName("Create prison. Negative Test")
     void createPrisonIsNullTest() {
-        doThrow(new RuntimeException()).when(prisonDao).persist(Mockito.isNull());
+        doThrow(new RuntimeException()).when(prisonDao).persist(Mockito.isNull(), Mockito.anyLong());
 
         assertThatThrownBy(()->{
-            prisonService.create(Mockito.isNull());
+            prisonService.create(Mockito.isNull(), Mockito.anyLong());
         }).isInstanceOf(RuntimeException.class);
     }
 

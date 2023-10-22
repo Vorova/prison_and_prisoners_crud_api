@@ -1,8 +1,12 @@
 CREATE TABLE prison
 (
-    id    BIGSERIAL PRIMARY KEY,
-    title VARCHAR(128)
+    id      BIGSERIAL PRIMARY KEY,
+    title   VARCHAR(128),
+    user_id BIGINT REFERENCES users(id)
 );
+
+-- DROP TABLE prison;
+-- DROP TABLE prisoner;
 
 CREATE TABLE prisoner
 (

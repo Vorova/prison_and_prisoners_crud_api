@@ -5,7 +5,6 @@ import com.vorova.dao.impl.PrisonerDaoImpl;
 import com.vorova.model.PrisonerModel;
 import com.vorova.service.PrisonerService;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -22,8 +21,8 @@ public class PrisonerServiceImpl implements PrisonerService {
      * @param prisoner сущность, которую необходимо сохранить
      */
     @Override
-    public void create(PrisonerModel prisoner) {
-        prisonerDao.persist(prisoner);
+    public Long create(PrisonerModel prisoner) {
+        return prisonerDao.persist(prisoner);
     }
 
     /**
@@ -53,10 +52,5 @@ public class PrisonerServiceImpl implements PrisonerService {
     @Override
     public PrisonerModel findById(Long prisonerId) {
         return Optional.of(prisonerDao.findById(prisonerId)).get().orElseThrow();
-    }
-
-    @Override
-    public List<PrisonerModel> findAll() {
-        return null;
     }
 }

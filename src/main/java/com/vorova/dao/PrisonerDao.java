@@ -8,9 +8,10 @@ import java.util.Optional;
 public interface PrisonerDao {
 
 
-    void persist(PrisonerModel prisoner);
+    Long persist(PrisonerModel prisoner);
 
     void update(Long prisonerId, PrisonerModel prisoner);
+
     void delete(Long prisonerId);
 
     Optional<PrisonerModel> findById(Long prisonerId);

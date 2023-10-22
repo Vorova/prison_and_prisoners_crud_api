@@ -1,6 +1,7 @@
 package com.vorova.model;
 
 import com.vorova.enums.ActionType;
+import com.vorova.enums.ModelType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,10 +14,11 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor()
 @NoArgsConstructor
-public class LogPrisonModel {
+public class LogModel {
 
     private ActionType actionType;
-    private Long prisonId;
+    private ModelType model;
+    private Long subjectId;
     private Long userId;
     private LocalDateTime dateTime;
 

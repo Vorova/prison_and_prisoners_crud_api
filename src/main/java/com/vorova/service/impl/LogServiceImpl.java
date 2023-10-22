@@ -1,9 +1,10 @@
 package com.vorova.service.impl;
 
-import com.vorova.dao.impl.LogDao;
+import com.vorova.dao.LogDao;
 import com.vorova.dao.impl.LogDaoImpl;
 import com.vorova.enums.ActionType;
-import com.vorova.model.LogPrisonModel;
+import com.vorova.enums.ModelType;
+import com.vorova.model.LogModel;
 import com.vorova.service.LogService;
 
 import java.time.LocalDateTime;
@@ -13,11 +14,11 @@ import java.time.LocalDateTime;
  */
 public class LogServiceImpl implements LogService {
 
-    private LogDao logDao = new LogDaoImpl();
+    private final LogDao logDao = new LogDaoImpl();
 
     @Override
-    public void addLog(ActionType type, Long prisonId, Long userId) {
-        var model = new LogPrisonModel(type, prisonId, userId, LocalDateTime.now());
+    public void addLog(ActionType type, ModelType modelType, Long subjectId, Long userId) {
+        var model = new LogModel(type, modelType, subjectId, userId, LocalDateTime.now());
         logDao.addLog(model);
     }
 }

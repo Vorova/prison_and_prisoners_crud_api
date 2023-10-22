@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,16 +25,19 @@ public class PrisonerDaoImpl implements PrisonerDao {
      * @param prisoner сущность, которую необходимо сохранить
      */
     @Override
-    public void persist(PrisonerModel prisoner) {
+    public Long persist(PrisonerModel prisoner) {
         String insert_sql = """
             INSERT INTO prisoner(name, prison_id) VALUES (?, ?);
             """;
         try (Connection connection = ConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement(insert_sql)){
+             PreparedStatement statement = connection.prepareStatement(insert_sql, Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1, prisoner.getName());
-            statement.setLong(2, prisoner.getPrison_id());
-            if (statement.executeUpdate() < 1)
-                throw new SQLException("Сохранение prisoner не произошло");
+            statement.setLong(2, prisoner.getPrisonId());
+            statement.execute();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys.next();
+            return generatedKeys.getLong(1);
         } catch (SQLException e) {
             System.err.println("Не удалось сохранить Prisoner");
             System.err.println(e.getMessage());
@@ -55,7 +59,7 @@ public class PrisonerDaoImpl implements PrisonerDao {
              PreparedStatement statement = connection.prepareStatement(update_sql)) {
             statement.setString(1, prisoner.getName());
             statement.setLong(2, prisonerId);
-            statement.setLong(3, prisoner.getPrison_id());
+            statement.setLong(3, prisoner.getPrisonId());
             if (statement.executeUpdate() < 1)
                 throw new SQLException("Обновление prisoner не произошло");
         } catch (SQLException e) {
@@ -72,7 +76,7 @@ public class PrisonerDaoImpl implements PrisonerDao {
     @Override
     public void delete(Long prisonerId) {
         String delete_sql = """
-            DELETE FROM prisoner WHERE id = ?;
+            UPDATE prisoner SET is_deleted = TRUE WHERE id = ?;
             """;
         try (Connection connection = ConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement(delete_sql)){
@@ -102,7 +106,7 @@ public class PrisonerDaoImpl implements PrisonerDao {
                 var prisoner = new PrisonerModel();
                 prisoner.setId(result.getLong("id"));
                 prisoner.setName(result.getString("name"));
-                prisoner.setPrison_id(result.getLong("prison_id"));
+                prisoner.setPrisonId(result.getLong("prison_id"));
                 return Optional.of(prisoner);
             }
             return Optional.empty();
@@ -123,7 +127,7 @@ public class PrisonerDaoImpl implements PrisonerDao {
         var prisoners = new ArrayList<PrisonerModel>();
 
         final String SELECT_SQL = """
-                SELECT * FROM prisoner WHERE prison_id = ?;
+                SELECT * FROM prisoner WHERE prison_id = ? AND is_deleted = FALSE;
                 """;
         try(Connection connection = ConnectionManager.open();
             PreparedStatement statement = connection.prepareStatement(SELECT_SQL)) {
@@ -133,7 +137,7 @@ public class PrisonerDaoImpl implements PrisonerDao {
                 var prisoner = new PrisonerModel();
                 prisoner.setId(result.getLong("id"));
                 prisoner.setName(result.getString("name"));
-                prisoner.setPrison_id(prisonId);
+                prisoner.setPrisonId(prisonId);
                 prisoners.add(prisoner);
             }
             return prisoners;

@@ -1,14 +1,17 @@
 package com.vorova.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vorova.enums.ActionType;
+import com.vorova.enums.ModelType;
 import com.vorova.model.PrisonerModel;
+import com.vorova.service.LogService;
 import com.vorova.service.PrisonerService;
+import com.vorova.service.impl.LogServiceImpl;
 import com.vorova.service.impl.PrisonerServiceImpl;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -18,6 +21,7 @@ import java.io.PrintWriter;
 public class PrisonerRestServlet extends CustomRestServlet {
 
     private final static PrisonerService prisonerService = new PrisonerServiceImpl();
+    private final LogService logService = new LogServiceImpl();
     private final static ObjectMapper mapper = new ObjectMapper();
 
     /**
@@ -32,9 +36,9 @@ public class PrisonerRestServlet extends CustomRestServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         long prisonerId = Long.parseLong(request.getParameter("id"));
-
         try {
             PrisonerModel prisoner = prisonerService.findById(prisonerId);
+            logService.addLog(ActionType.GET_PRISONER, ModelType.PRISONER, prisonerId, USER_ID());
 
             response.setStatus(200);
             response.setContentType("application/json");
@@ -55,15 +59,14 @@ public class PrisonerRestServlet extends CustomRestServlet {
      * @param request an {@link HttpServletRequest} object that contains the request the client has made of the servlet
      *
      * @param response an {@link HttpServletResponse} object that contains the response the servlet sends to the client
-     *
-     * @throws IOException ошибка сериализации
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         var requestBody = getBodyFromRequest(request);
         try {
             PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
-            prisonerService.create(prisoner);
+            Long prisonerId = prisonerService.create(prisoner);
+            logService.addLog(ActionType.ADD_PRISONER, ModelType.PRISONER, prisonerId, USER_ID());
             response.setStatus(201);
         } catch (Exception e) {
             response.setStatus(400);
@@ -78,15 +81,14 @@ public class PrisonerRestServlet extends CustomRestServlet {
      * @param request the {@link HttpServletRequest} object that contains the request the client made of the servlet
      *
      * @param response the {@link HttpServletResponse} object that contains the response the servlet returns to the client
-     *
-     * @throws IOException ошибка сериализации
      */
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) {
         var requestBody = getBodyFromRequest(request);
         try {
             PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
             prisonerService.update(prisoner.getId(), prisoner);
+            logService.addLog(ActionType.UPDATE_PRISONER, ModelType.PRISONER, prisoner.getId(), USER_ID());
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);
@@ -106,9 +108,19 @@ public class PrisonerRestServlet extends CustomRestServlet {
         long prisonerId = Long.parseLong(request.getParameter("id"));
         try {
             prisonerService.delete(prisonerId);
+            logService.addLog(ActionType.DELETE_PRISONER, ModelType.PRISONER, prisonerId, USER_ID());
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);
         }
+    }
+
+
+    /**
+     * Возвращает из контекста id авторизованного пользователя
+     * @return id авторизованного пользователя
+     */
+    private long USER_ID() {
+        return (int) getServletContext().getAttribute("user_id");
     }
 }

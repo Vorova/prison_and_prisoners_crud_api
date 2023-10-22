@@ -14,17 +14,8 @@ import lombok.Data;
 @Data
 public class PrisonerModel {
 
-    /**
-     * Primary key
-     */
     private Long id;
-    /**
-     * Имя заключенного
-     */
     private String name;
-    /**
-     * Принадлежность к тюрьме(Prison), имеет not null constraint в базе
-     */
-    private Long prison_id;
+    private Long prisonId;
 
 }

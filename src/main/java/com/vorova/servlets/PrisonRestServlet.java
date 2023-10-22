@@ -2,18 +2,16 @@ package com.vorova.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vorova.enums.ActionType;
+import com.vorova.enums.ModelType;
 import com.vorova.model.PrisonModel;
 import com.vorova.service.LogService;
 import com.vorova.service.PrisonService;
 import com.vorova.service.impl.LogServiceImpl;
 import com.vorova.service.impl.PrisonServiceImpl;
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -41,7 +39,7 @@ public class PrisonRestServlet extends CustomRestServlet {
 
         try {
             PrisonModel prison = prisonService.findById(prisonId);
-            logService.addLog(ActionType.GET_PRISON, prisonId, USER_ID());
+            logService.addLog(ActionType.GET_PRISON, ModelType.PRISON, prisonId, USER_ID());
 
             response.setStatus(200);
             response.setContentType("application/json");
@@ -70,8 +68,7 @@ public class PrisonRestServlet extends CustomRestServlet {
         try {
             PrisonModel prison = mapper.readValue(requestBody, PrisonModel.class);
             Long prisonId = prisonService.create(prison);
-            System.out.println(prisonId);
-            logService.addLog(ActionType.ADD_PRISON, prisonId, USER_ID());
+            logService.addLog(ActionType.ADD_PRISON, ModelType.PRISON, prisonId, USER_ID());
             response.setStatus(201);
         } catch (Exception e) {
             response.setStatus(400);
@@ -95,7 +92,7 @@ public class PrisonRestServlet extends CustomRestServlet {
         try {
             PrisonModel prison = mapper.readValue(requestBody, PrisonModel.class);
             prisonService.update(prison.getId(), prison);
-            logService.addLog(ActionType.UPDATE_PRISON, prison.getId(), USER_ID());
+            logService.addLog(ActionType.UPDATE_PRISON, ModelType.PRISON, prison.getId(), USER_ID());
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);
@@ -116,7 +113,7 @@ public class PrisonRestServlet extends CustomRestServlet {
         long prisonId = Long.parseLong(request.getParameter("id"));
         try {
             prisonService.delete(prisonId);
-            logService.addLog(ActionType.DELETE_PRISON, prisonId, USER_ID());
+            logService.addLog(ActionType.DELETE_PRISON, ModelType.PRISON, prisonId, USER_ID());
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);

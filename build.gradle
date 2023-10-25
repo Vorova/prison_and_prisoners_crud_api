@@ -39,6 +39,9 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
+    // Hibernate
+    implementation 'org.hibernate:hibernate-core:6.3.0.CR1'
+
     // Postgres Driver
     implementation 'org.postgresql:postgresql:42.6.0'
 }

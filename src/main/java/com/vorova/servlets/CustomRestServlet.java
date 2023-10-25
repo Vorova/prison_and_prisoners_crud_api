@@ -2,8 +2,8 @@ package com.vorova.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vorova.enums.HttpCode;
-import com.vorova.model.ResponseDto;
-import com.vorova.model.ResponseExceptionDto;
+import com.vorova.model.dto.ResponseDto;
+import com.vorova.model.dto.ResponseExceptionDto;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,6 +1,6 @@
 package com.vorova.service;
 
-import com.vorova.model.StatsDto;
+import com.vorova.model.dto.StatsDto;
 
 public interface StatsService {
 

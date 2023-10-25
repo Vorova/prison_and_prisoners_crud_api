@@ -1,5 +1,6 @@
-package com.vorova.model;
+package com.vorova.model.dto;
 
+import com.vorova.model.entity.PrisonModel;
 import lombok.Data;
 
 import java.util.List;

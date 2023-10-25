@@ -2,8 +2,8 @@ package com.vorova.service.impl;
 
 import com.vorova.dao.UserDao;
 import com.vorova.dao.impl.UserDaoImpl;
-import com.vorova.model.JwtTokenDto;
-import com.vorova.model.UserModel;
+import com.vorova.model.dto.JwtTokenDto;
+import com.vorova.model.entity.UserModel;
 import com.vorova.service.JwtService;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -27,7 +27,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public JwtTokenDto generateToken(String login) {
-        UserModel user = userDao.findByLogin(login).orElseThrow(); // todo исключение обработать
+        UserModel user = userDao.findByLogin(login).orElseThrow();
         System.out.println(user);
         Map<String, Object> claims = new HashMap<>();
 

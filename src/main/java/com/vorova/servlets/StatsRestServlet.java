@@ -1,7 +1,7 @@
 package com.vorova.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vorova.model.StatsDto;
+import com.vorova.model.dto.StatsDto;
 import com.vorova.service.StatsService;
 import com.vorova.service.impl.StatsServiceImpl;
 import jakarta.servlet.annotation.WebServlet;

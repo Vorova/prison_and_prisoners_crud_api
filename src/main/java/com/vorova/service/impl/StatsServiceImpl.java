@@ -2,7 +2,7 @@ package com.vorova.service.impl;
 
 import com.vorova.dao.PrisonDao;
 import com.vorova.dao.impl.PrisonDaoImpl;
-import com.vorova.model.StatsDto;
+import com.vorova.model.dto.StatsDto;
 import com.vorova.service.StatsService;
 
 /**
@@ -21,12 +21,12 @@ public class StatsServiceImpl implements StatsService {
         var stats = new StatsDto();
         stats.setPrisons(prisonDao.findAll());
         stats.setCountAllPrisons(stats.getPrisons().size());
-        stats.setCountAllPrisoners(
-            stats.getPrisons().stream()
-                    .flatMap(prison ->
-                            prison.getPrisoners().stream()
-                    ).count()
-        );
+//        stats.setCountAllPrisoners(
+//            stats.getPrisons().stream()
+//                    .flatMap(prison ->
+//                            prison.getPrisoners().stream()
+//                    ).count()
+//        );
         return stats;
     }
 }

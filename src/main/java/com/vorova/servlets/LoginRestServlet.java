@@ -1,10 +1,10 @@
 package com.vorova.servlets;
 
 import com.vorova.enums.HttpCode;
-import com.vorova.model.JwtTokenDto;
-import com.vorova.model.LoginDto;
-import com.vorova.model.ResponseDto;
-import com.vorova.model.ResponseExceptionDto;
+import com.vorova.model.dto.JwtTokenDto;
+import com.vorova.model.dto.LoginDto;
+import com.vorova.model.dto.ResponseDto;
+import com.vorova.model.dto.ResponseExceptionDto;
 import com.vorova.service.JwtService;
 import com.vorova.service.UserService;
 import com.vorova.service.impl.JwtServiceImpl;

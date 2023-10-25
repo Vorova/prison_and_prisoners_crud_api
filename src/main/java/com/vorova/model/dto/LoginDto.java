@@ -1,4 +1,4 @@
-package com.vorova.model;
+package com.vorova.model.dto;
 
 import lombok.Data;
 

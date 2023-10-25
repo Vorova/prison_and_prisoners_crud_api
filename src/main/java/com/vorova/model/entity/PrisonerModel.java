@@ -1,6 +1,12 @@
-package com.vorova.model;
+package com.vorova.model.entity;
 
-import lombok.Data;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Модель заключенного. <br>
@@ -11,11 +17,19 @@ import lombok.Data;
  * У заключенного необходима принадлежность к тюрьме(иначе он не заключенный) - в базе
  * это обозначено как наличие constraint - Not Null на поле prison_id
  */
-@Data
+@Getter
+@Setter
+@Entity
+@Table(name = "prisoner")
 public class PrisonerModel {
 
+    @Id
     private Long id;
+
+    @Column
     private String name;
-    private Long prisonId;
+
+    @ManyToOne
+    private PrisonModel prisonId;
 
 }

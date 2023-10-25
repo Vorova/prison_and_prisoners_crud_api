@@ -1,7 +1,7 @@
 package com.vorova.service.impl;
 
 import com.vorova.dao.PrisonerDao;
-import com.vorova.model.PrisonerModel;
+import com.vorova.model.entity.PrisonerModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

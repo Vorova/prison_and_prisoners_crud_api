@@ -1,152 +1,78 @@
 package com.vorova.dao.impl;
 
-import com.vorova.config.ConnectionManager;
+import com.vorova.config.HibernateUtil;
 import com.vorova.dao.PrisonDao;
-import com.vorova.dao.PrisonerDao;
-import com.vorova.model.PrisonModel;
+import com.vorova.model.entity.PrisonModel;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Реализация dao слоя для сущности PrisonModel. <br>
- * Выполняет преимущественно CRUD операции <br>
- */
 public class PrisonDaoImpl implements PrisonDao {
 
-    private final PrisonerDao prisonerDao = new PrisonerDaoImpl();
-
-    /**
-     * Сохранение сущности в базе данных
-     *
-     * @param prison сохраняемая сущность
-     */
     @Override
     public Long persist(PrisonModel prison) {
-        String insert_sql = """
-                INSERT INTO prison(title) VALUES (?) RETURNING id;
-                """;
-        try (Connection connection = ConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement(insert_sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, prison.getTitle());
-            statement.execute();
+        Session session = HibernateUtil.session();
 
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            generatedKeys.next();
-            return generatedKeys.getLong(1);
-        } catch (SQLException e) {
-            System.err.println("Не удалось сохранить Prison");
-            System.err.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
+        session.beginTransaction();
+        session.persist(prison);
+        session.getTransaction().commit();
+
+        session.close();
+
+        return prison.getId();
     }
 
-    /**
-     * Обновление сущности в базе данных
-     *
-     * @param prisonId primary key для обновления
-     * @param prison   новая сущность
-     */
     @Override
-    public void update(Long prisonId, PrisonModel prison) {
-        String update_sql = """
-                UPDATE prison SET title = ? WHERE id = ?;
-                """;
-        try (Connection connection = ConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement(update_sql)) {
-            statement.setString(1, prison.getTitle());
-            statement.setLong(2, prisonId);
-            if (statement.executeUpdate() < 1)
-                throw new SQLException("Обновление не удалось");
-        } catch (SQLException e) {
-            System.err.println("Не удалось обновить Prison");
-            System.err.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
+    public void update(PrisonModel prison) {
+        Session session = HibernateUtil.session();
+
+        session.beginTransaction();
+        session.merge(prison);
+        session.getTransaction().commit();
+
+        session.close();
     }
 
-    /**
-     * Удаление сущности из базы данных
-     *
-     * @param prisonId primary key по которому будет удаление
-     */
     @Override
     public void delete(Long prisonId) {
-        String delete_sql = """
-                DELETE FROM prison WHERE id = ?;
-                """;
-        try (Connection connection = ConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement(delete_sql)) {
-            statement.setLong(1, prisonId);
-            if (statement.executeUpdate() < 1)
-                throw new RuntimeException("Ничего не было удалено!");
-        } catch (SQLException e) {
-            System.err.println("Не удалось удалить Prison");
-            System.err.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
+        Session session = HibernateUtil.session();
+
+        session.beginTransaction();
+        PrisonModel prison = session.get(PrisonModel.class, prisonId);
+        session.remove(prison);
+        session.getTransaction().commit();
+
+        session.close();
     }
 
-    /**
-     * Получение сущности по ее primary key
-     *
-     * @param prisonId primary key
-     * @return Optional PrisonModel
-     */
     @Override
-    public Optional<PrisonModel> findById(Long prisonId) {
-        String select_sql = "SELECT * FROM prison WHERE id = ?";
-        try (Connection connection = ConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement(select_sql)) {
-            statement.setLong(1, prisonId);
-            ResultSet result = statement.executeQuery();
-            if (result.next()) {
-                var prison = new PrisonModel();
-                prison.setId(result.getLong("id"));
-                prison.setTitle(result.getString("title"));
-                return Optional.of(prison);
-            }
+    public Optional<PrisonModel> findById(Long id) {
+        try (Session session = HibernateUtil.session()){
+
+            session.beginTransaction();
+
+            session.setDefaultReadOnly(true);
+            PrisonModel prison = session.get(PrisonModel.class, id);
+            session.getTransaction().commit();
+
+            return Optional.of(prison);
+        } catch (Exception e) {
             return Optional.empty();
-        } catch (SQLException e) {
-            System.err.println("Не удалось получить Prison");
-            System.err.println(e.getMessage());
-            throw new RuntimeException(e);
         }
     }
 
-    /**
-     * Получение всех PrisonModel
-     *
-     * @return List
-     */
     @Override
     public List<PrisonModel> findAll() {
-        var prisons = new ArrayList<PrisonModel>();
+        final String SELECT_SQL = "from PrisonModel as prison";
 
-        final String SELECT_SQL = """
-                SELECT * FROM prison;
-                """;
-        try (Connection connection = ConnectionManager.open();
-             Statement statement = connection.createStatement()) {
-            ResultSet result = statement.executeQuery(SELECT_SQL);
-            while (result.next()) {
-                var prison = new PrisonModel();
-                prison.setId(result.getLong("id"));
-                prison.setTitle(result.getString("title"));
-                prison.setPrisoners(prisonerDao.findAllByPrisonId(prison.getId()));
+        Session session = HibernateUtil.session();
 
-                prisons.add(prison);
-            }
-            return prisons;
-        } catch (SQLException e) {
-            System.out.println("Не удалось получить все prisons");
-            throw new RuntimeException();
-        }
+        Query<PrisonModel> query = session.createQuery(SELECT_SQL, PrisonModel.class);
+        List<PrisonModel> prisons = query.getResultList();
+
+        session.close();
+        return prisons;
     }
 }

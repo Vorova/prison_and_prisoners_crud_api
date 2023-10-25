@@ -3,7 +3,7 @@ package com.vorova.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vorova.enums.ActionType;
 import com.vorova.enums.ModelType;
-import com.vorova.model.PrisonerModel;
+import com.vorova.model.entity.PrisonerModel;
 import com.vorova.service.LogService;
 import com.vorova.service.PrisonerService;
 import com.vorova.service.impl.LogServiceImpl;
@@ -38,7 +38,7 @@ public class PrisonerRestServlet extends CustomRestServlet {
         long prisonerId = Long.parseLong(request.getParameter("id"));
         try {
             PrisonerModel prisoner = prisonerService.findById(prisonerId);
-            logService.addLog(ActionType.GET_PRISONER, ModelType.PRISONER, prisonerId, USER_ID());
+            logService.addLog(USER_ID(), prisoner.getId(), ActionType.GET_PRISONER);
 
             response.setStatus(200);
             response.setContentType("application/json");
@@ -66,7 +66,7 @@ public class PrisonerRestServlet extends CustomRestServlet {
         try {
             PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
             Long prisonerId = prisonerService.create(prisoner);
-            logService.addLog(ActionType.ADD_PRISONER, ModelType.PRISONER, prisonerId, USER_ID());
+            logService.addLog(USER_ID(), prisonerId, ActionType.ADD_PRISONER);
             response.setStatus(201);
         } catch (Exception e) {
             response.setStatus(400);
@@ -87,8 +87,8 @@ public class PrisonerRestServlet extends CustomRestServlet {
         var requestBody = getBodyFromRequest(request);
         try {
             PrisonerModel prisoner = mapper.readValue(requestBody, PrisonerModel.class);
-            prisonerService.update(prisoner.getId(), prisoner);
-            logService.addLog(ActionType.UPDATE_PRISONER, ModelType.PRISONER, prisoner.getId(), USER_ID());
+            prisonerService.update(prisoner);
+            logService.addLog(USER_ID(), prisoner.getId(), ActionType.UPDATE_PRISONER);
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);
@@ -108,7 +108,7 @@ public class PrisonerRestServlet extends CustomRestServlet {
         long prisonerId = Long.parseLong(request.getParameter("id"));
         try {
             prisonerService.delete(prisonerId);
-            logService.addLog(ActionType.DELETE_PRISONER, ModelType.PRISONER, prisonerId, USER_ID());
+            logService.addLog(USER_ID(), prisonerId, ActionType.DELETE_PRISONER);
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);

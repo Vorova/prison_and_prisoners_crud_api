@@ -2,7 +2,7 @@ package com.vorova.service.impl;
 
 import com.vorova.dao.PrisonerDao;
 import com.vorova.dao.impl.PrisonerDaoImpl;
-import com.vorova.model.PrisonerModel;
+import com.vorova.model.entity.PrisonerModel;
 import com.vorova.service.PrisonerService;
 
 import java.util.Optional;
@@ -26,13 +26,12 @@ public class PrisonerServiceImpl implements PrisonerService {
     }
 
     /**
-     * Отправляет запрос в dao слой, для обновления сущности по id
-     * @param prisonerId primary key, по которому необходимо произвести обновление
+     * Отправляет запрос в dao слой, для обновления сущности
      * @param prisoner новая сущность
      */
     @Override
-    public void update(Long prisonerId, PrisonerModel prisoner) {
-        prisonerDao.update(prisonerId, prisoner);
+    public void update(PrisonerModel prisoner) {
+        prisonerDao.update(prisoner);
     }
 
     /**

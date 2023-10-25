@@ -1,6 +1,6 @@
 package com.vorova.service;
 
-import com.vorova.model.JwtTokenDto;
+import com.vorova.model.dto.JwtTokenDto;
 
 import java.util.Map;
 

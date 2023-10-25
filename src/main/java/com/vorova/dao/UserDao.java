@@ -1,6 +1,6 @@
 package com.vorova.dao;
 
-import com.vorova.model.UserModel;
+import com.vorova.model.entity.UserModel;
 
 import java.util.Optional;
 

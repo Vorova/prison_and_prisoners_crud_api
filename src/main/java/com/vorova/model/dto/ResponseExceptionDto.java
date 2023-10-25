@@ -1,18 +1,17 @@
-package com.vorova.model;
+package com.vorova.model.dto;
 
 import com.vorova.enums.HttpCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * DTO ответа от сервера
- * @param <T>
+ * DTO ответа с ошибкой
  */
 @Data
 @AllArgsConstructor
-public class ResponseDto<T> {
+public class ResponseExceptionDto {
 
     private HttpCode code;
-    private T response;
+    private String message;
 
 }

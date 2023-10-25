@@ -1,6 +1,6 @@
 package com.vorova.dao;
 
-import com.vorova.model.PrisonerModel;
+import com.vorova.model.entity.PrisonerModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,7 @@ public interface PrisonerDao {
 
     Long persist(PrisonerModel prisoner);
 
-    void update(Long prisonerId, PrisonerModel prisoner);
+    void update(PrisonerModel prisoner);
 
     void delete(Long prisonerId);
 

@@ -2,11 +2,11 @@ package com.vorova.service.impl;
 
 import com.vorova.dao.PrisonDao;
 import com.vorova.dao.impl.PrisonDaoImpl;
-import com.vorova.model.PrisonModel;
+import com.vorova.model.entity.PrisonModel;
 import com.vorova.service.PrisonService;
 
-import java.util.List;
 import java.util.Optional;
+
 
 /**
  * Реализация сервисного CRUD слоя над сущностью Prison <br>
@@ -28,12 +28,11 @@ public class PrisonServiceImpl implements PrisonService {
 
     /**
      * Отправляет запрос в dao слой для обновления сущности
-     * @param id primary key сущности, которую необходимо обновить
      * @param prison новая сущность
      */
     @Override
-    public void update(Long id, PrisonModel prison) {
-        prisonDao.update(id, prison);
+    public void update(PrisonModel prison) {
+        prisonDao.update(prison);
     }
 
     /**
@@ -53,11 +52,6 @@ public class PrisonServiceImpl implements PrisonService {
     @Override
     public PrisonModel findById(Long id) {
         return Optional.of(prisonDao.findById(id)).get().orElseThrow();
-    }
-
-    @Override
-    public List<PrisonModel> findAll() {
-        return prisonDao.findAll();
     }
 
 }

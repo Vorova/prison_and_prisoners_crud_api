@@ -1,7 +1,7 @@
 package com.vorova.dao;
 
 
-import com.vorova.model.LogModel;
+import com.vorova.model.entity.LogModel;
 
 public interface LogDao {
 

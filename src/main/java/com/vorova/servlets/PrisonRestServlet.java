@@ -3,7 +3,7 @@ package com.vorova.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vorova.enums.ActionType;
 import com.vorova.enums.ModelType;
-import com.vorova.model.PrisonModel;
+import com.vorova.model.entity.PrisonModel;
 import com.vorova.service.LogService;
 import com.vorova.service.PrisonService;
 import com.vorova.service.impl.LogServiceImpl;
@@ -39,7 +39,7 @@ public class PrisonRestServlet extends CustomRestServlet {
 
         try {
             PrisonModel prison = prisonService.findById(prisonId);
-            logService.addLog(ActionType.GET_PRISON, ModelType.PRISON, prisonId, USER_ID());
+            logService.addLog(USER_ID(), prisonId, ActionType.GET_PRISON);
 
             response.setStatus(200);
             response.setContentType("application/json");
@@ -68,7 +68,7 @@ public class PrisonRestServlet extends CustomRestServlet {
         try {
             PrisonModel prison = mapper.readValue(requestBody, PrisonModel.class);
             Long prisonId = prisonService.create(prison);
-            logService.addLog(ActionType.ADD_PRISON, ModelType.PRISON, prisonId, USER_ID());
+            logService.addLog(USER_ID(), prisonId, ActionType.ADD_PRISON);
             response.setStatus(201);
         } catch (Exception e) {
             response.setStatus(400);
@@ -91,8 +91,8 @@ public class PrisonRestServlet extends CustomRestServlet {
         var requestBody = getBodyFromRequest(request);
         try {
             PrisonModel prison = mapper.readValue(requestBody, PrisonModel.class);
-            prisonService.update(prison.getId(), prison);
-            logService.addLog(ActionType.UPDATE_PRISON, ModelType.PRISON, prison.getId(), USER_ID());
+            prisonService.update(prison);
+            logService.addLog(USER_ID(), prison.getId(), ActionType.UPDATE_PRISON);
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);
@@ -113,7 +113,7 @@ public class PrisonRestServlet extends CustomRestServlet {
         long prisonId = Long.parseLong(request.getParameter("id"));
         try {
             prisonService.delete(prisonId);
-            logService.addLog(ActionType.DELETE_PRISON, ModelType.PRISON, prisonId, USER_ID());
+            logService.addLog(USER_ID(), prisonId, ActionType.DELETE_PRISON);
             response.setStatus(204);
         } catch (Exception e) {
             response.setStatus(400);

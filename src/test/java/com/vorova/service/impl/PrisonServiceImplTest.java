@@ -53,11 +53,11 @@ class PrisonServiceImplTest {
     void updateTest() {
         var prison = new PrisonModel();
         prison.setId(4444L);
-        doNothing().when(prisonDao).update(prison.getId(), prison);
+        doNothing().when(prisonDao).update(prison);
 
-        prisonService.update(prison.getId(), prison);
+        prisonService.update(prison);
 
-        verify(prisonDao).update(prison.getId(), prison);
+        verify(prisonDao).update(prison);
     }
 
     @Test
@@ -65,10 +65,10 @@ class PrisonServiceImplTest {
     void updateNegativeTest() {
         var prison = new PrisonModel();
         prison.setId(-1L);
-        doThrow(new RuntimeException()).when(prisonDao).update(prison.getId(), prison);
+        doThrow(new RuntimeException()).when(prisonDao).update(prison);
 
         assertThatThrownBy(() -> {
-            prisonService.update(prison.getId(), prison);
+            prisonService.update(prison);
         }).isInstanceOf(RuntimeException.class);
     }
 

@@ -58,11 +58,11 @@ class PrisonerServiceImplTest {
     @DisplayName("Check callback by update")
     void updateTest() {
         PrisonerModel prisoner = new PrisonerModel();
-        doNothing().when(prisonerDao).update(prisoner.getId(), prisoner);
+        doNothing().when(prisonerDao).update(prisoner);
 
-        prisonerService.update(prisoner.getId(), prisoner);
+        prisonerService.update(prisoner);
 
-        verify(prisonerDao).update(prisoner.getId(), prisoner);
+        verify(prisonerDao).update(prisoner);
     }
 
     @Test
@@ -70,10 +70,10 @@ class PrisonerServiceImplTest {
     void updateNegativeTest() {
         PrisonerModel prisoner = new PrisonerModel();
         prisoner.setId(-1L);
-        doThrow(RuntimeException.class).when(prisonerDao).update(prisoner.getId(), prisoner);
+        doThrow(RuntimeException.class).when(prisonerDao).update(prisoner);
 
         assertThatThrownBy(() ->
-            prisonerService.update(prisoner.getId(), prisoner)
+            prisonerService.update(prisoner)
         ).isInstanceOf(RuntimeException.class);
     }
 

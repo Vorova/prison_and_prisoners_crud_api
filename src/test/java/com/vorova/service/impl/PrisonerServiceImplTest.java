@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.NoSuchElementException;
@@ -34,7 +35,8 @@ class PrisonerServiceImplTest {
     @DisplayName("Check callback by create")
     void createTest() {
         PrisonerModel prisoner = new PrisonerModel();
-        doNothing().when(prisonerDao).persist(prisoner);
+        Long ID = 3L;
+        Mockito.when(prisonerDao.persist(prisoner)).thenReturn(ID);
 
         prisonerService.create(prisoner);
 

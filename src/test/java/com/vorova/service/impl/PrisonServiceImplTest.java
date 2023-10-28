@@ -31,7 +31,8 @@ class PrisonServiceImplTest {
     @DisplayName("Create prison")
     void createTest() {
         var prison = new PrisonModel();
-        doNothing().when(prisonDao).persist(prison);
+        Long ID = 2L;
+        Mockito.when(prisonDao.persist(prison)).thenReturn(ID);
 
         prisonService.create(prison);
 
@@ -43,9 +44,9 @@ class PrisonServiceImplTest {
     void createPrisonIsNullTest() {
         doThrow(new RuntimeException()).when(prisonDao).persist(Mockito.isNull());
 
-        assertThatThrownBy(()->{
-            prisonService.create(Mockito.isNull());
-        }).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(()->
+            prisonService.create(Mockito.isNull())
+        ).isInstanceOf(RuntimeException.class);
     }
 
     @Test
@@ -67,9 +68,9 @@ class PrisonServiceImplTest {
         prison.setId(-1L);
         doThrow(new RuntimeException()).when(prisonDao).update(prison);
 
-        assertThatThrownBy(() -> {
-            prisonService.update(prison);
-        }).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() ->
+            prisonService.update(prison)
+        ).isInstanceOf(RuntimeException.class);
     }
 
     @Test
